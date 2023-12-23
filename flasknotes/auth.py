@@ -10,6 +10,10 @@ from flasknotes.db import get_db
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
+@bp.route("/")
+def hello():
+    return "auth :)"
+
 @bp.route("/register", methods=("GET", "POST"))
 def register():
     if request.method == "POST":
@@ -61,8 +65,8 @@ def login():
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
-            #return redirect(url_for("auth.login"))
-
+            return redirect(url_for("index"))
+        
         flash(error)
 
     return render_template("auth/login.html")
